@@ -1,40 +1,59 @@
 package com.makeiteasy.todo.service;
 
+import com.makeiteasy.todo.dto.UserRequestDTO;
+import com.makeiteasy.todo.dto.UserResponceDTO;
+import com.makeiteasy.todo.mapper.UserMapper;
 import com.makeiteasy.todo.model.User;
 import com.makeiteasy.todo.repo.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserRepository userRepository;
 
-    public User getUserDetailById(long id){
-        return userRepository.findById(id).get();
+    public Optional<User> getUserDetailById(long id){
+        return userRepository.findById(id);
     }
 
     public List<User> getAllUsers(){
         List<User> users=userRepository.findAll();
+        log.info("List of Users: "+users);
         return  users;
     }
 
-    public User createUser(User user){
-        return userRepository.save(user);
+    public UserResponceDTO createUser(UserRequestDTO userRequestDTO) throws IllegalArgumentException{
+        if (userRepository.existsByEmail(userRequestDTO.getEmail())){
+            throw new IllegalArgumentException("Email already exist: "+userRequestDTO.getEmail());
+        }
+        User user = UserMapper.toEntity(userRequestDTO);
+        User savedUser = userRepository.save(user);
+        return UserMapper.toDTO(savedUser);
     }
 
-    public User updateUser(long id, User user){
+    public UserResponceDTO updateUser(long id, UserRequestDTO userRequestDTO){
+        if (userRepository.existsByEmail(userRequestDTO.getEmail())){
+            throw new IllegalArgumentException("Email already exist: "+userRequestDTO.getEmail());
+        }
         User existingUser = userRepository.findById(id).get();
-        existingUser.setName(user.getName());
-        existingUser.setEmail(user.getEmail());
+        existingUser.setName(userRequestDTO.getName());
+        existingUser.setEmail(userRequestDTO.getEmail());
 
-        return userRepository.save(existingUser);
+        User updatedUser = userRepository.save(existingUser);
+        return UserMapper.toDTO(updatedUser);
     }
 
-    public void deleteUser(long id){
-        User existingUser = userRepository.findById(id).get();
-        userRepository.delete(existingUser);
+    public boolean deleteUser(long id) {
+        return userRepository.findById(id).map(user -> {
+            userRepository.delete(user);
+            return true;
+        }).orElse(false);
     }
 }
