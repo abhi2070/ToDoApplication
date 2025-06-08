@@ -18,7 +18,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long userID;
     private String name;
+    private String userName;
     private String email;
+    private String password;
+    private String role;
+
+    public User(Long userID, String name, String userName, String email, String password, String role) {
+        this.userID = userID;
+        this.name = name;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User() {}
+
+}
+
+
+/*
+
 
 //    public Long getUserID() {
 //        return userID;
@@ -43,15 +63,7 @@ public class User {
 //    public void setEmail(String email) {
 //        this.email = email;
 //    }
-    public User(Long userID, String name, String email) {
-        this.userID = userID;
-        this.name = name;
-        this.email = email;
-    }
-
-    public User() {}
-
-//    @Override
+* //    @Override
 //    public String toString() {
 //        return "User{" +
 //                "userID=" + userID +
@@ -59,4 +71,4 @@ public class User {
 //                ", email='" + email + '\'' +
 //                '}';
 //    }
-}
+* */

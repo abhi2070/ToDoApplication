@@ -2,13 +2,13 @@ package com.makeiteasy.todo.controller;
 
 import com.makeiteasy.todo.dto.UserRequestDTO;
 import com.makeiteasy.todo.dto.UserResponceDTO;
-import com.makeiteasy.todo.model.User;
 import com.makeiteasy.todo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +25,7 @@ public class UserController {
 
    @GetMapping("/getUser/{id}")
    public ResponseEntity<?> getUser(@PathVariable long id){
-       Optional<User> user = userService.getUserDetailById(id);
+       Optional<UserResponceDTO> user = userService.getUserDetailById(id);
        if (user.isPresent()){
            return ResponseEntity.status(HttpStatus.OK).body(user);
        }else {
@@ -34,8 +34,8 @@ public class UserController {
    }
 
    @GetMapping("/getUsers")
-   public ResponseEntity<List<User>> getUsers(){
-       List<User> users=userService.getAllUsers();
+   public ResponseEntity<List<UserResponceDTO>> getUsers(){
+       List<UserResponceDTO> users=userService.getAllUsers();
        if (users.isEmpty()){
            return ResponseEntity.noContent().build();
        }
@@ -57,6 +57,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody @Valid UserRequestDTO userRequestDTO){
         try{
             UserResponceDTO update = userService.updateUser(id, userRequestDTO);;
@@ -69,6 +70,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/removeUser/{id}")
     public ResponseEntity<String>  deleteUser(@PathVariable long id){
         boolean isDeleted = userService.deleteUser(id);

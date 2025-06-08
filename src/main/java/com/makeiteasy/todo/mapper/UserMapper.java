@@ -10,7 +10,10 @@ public class UserMapper {
     public static User toEntity(UserRequestDTO dto){
         User user=new User();
         user.setName(dto.getName());
+        user.setUserName(dto.getUserName());
         user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setRole(dto.getRole());
         return user;
     }
 
@@ -20,6 +23,8 @@ public class UserMapper {
         dto.setUserID(user.getUserID());
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
+        dto.setUserName(user.getUserName());
+        dto.setRole(user.getRole());
         return dto;
     }
 }
