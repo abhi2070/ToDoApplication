@@ -57,7 +57,6 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody @Valid UserRequestDTO userRequestDTO){
         try{
             UserResponceDTO update = userService.updateUser(id, userRequestDTO);;

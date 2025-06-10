@@ -1,0 +1,33 @@
+com.makeiteasy.todo
+├── TodoApplication.java               # Main class
+│
+├── config                             # Spring Security config + JWT config
+│   ├── SecurityConfig.java
+│   ├── JwtRequestFilter.java
+│   └── JwtUtil.java
+│
+├── controller                         # All REST controllers
+│   ├── AuthController.java            # Handles login and register
+│   └── UserController.java            # Handles user-related APIs
+│
+├── dto                                # Request and response DTOs
+│   ├── UserRequestDTO.java
+│   ├── UserResponceDTO.java
+│   ├── LoginRequestDTO.java           # For login API
+│   └── LoginResponseDTO.java          # For login response (JWT + user data)
+│
+├── exception                          # Optional: For global exception handling (future)
+│   └── GlobalExceptionHandler.java
+│
+├── mapper                             # DTO <-> Entity mapping
+│   └── UserMapper.java
+│
+├── model                              # JPA entities
+│   └── User.java
+│
+├── repo                               # Spring Data JPA repositories
+│   └── UserRepository.java
+│
+├── service                            # Business logic
+│   ├── UserService.java
+│   └── MyUserDetailsService.java
