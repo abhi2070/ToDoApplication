@@ -11,11 +11,9 @@ public class UserRequestDTO {
     @NotBlank(message = "Name can't be empty")
     private String name;
 
-    @Column(unique = true)
-    private String userName;
-
     @NotBlank(message = "Email can't be empty")
     @Email(message = "Enter a valid email")
+    @Column(unique = true)
     private String email;
 
     @NotBlank

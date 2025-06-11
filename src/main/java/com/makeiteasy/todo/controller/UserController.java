@@ -42,15 +42,12 @@ public class UserController {
        return ResponseEntity.status(HttpStatus.OK).body(users);
    }
 
-   //@Valid will trigger validation on @NotBlank, @Email, etc.
     @PostMapping("/newUser")
-    public ResponseEntity<UserResponceDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO)throws IllegalArgumentException{
+    public ResponseEntity<UserResponceDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO){
        try{
            UserResponceDTO newUser = userService.createUser(userRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-       }catch (IllegalArgumentException e){
-         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-       } catch (Exception e){
+       }catch (Exception e){
            log.error("Failed to create new User "+e.getMessage());
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
        }
@@ -61,8 +58,6 @@ public class UserController {
         try{
             UserResponceDTO update = userService.updateUser(id, userRequestDTO);;
             return ResponseEntity.ok(update);
-        }catch (IllegalArgumentException e){
-            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }catch (Exception e){
             log.info("Failed to update User "+e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

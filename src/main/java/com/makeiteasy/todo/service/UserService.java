@@ -34,10 +34,7 @@ public class UserService {
         return  users.stream().map(UserMapper::toDTO).collect(Collectors.toList());
     }
 
-    public UserResponceDTO createUser(UserRequestDTO userRequestDTO) throws IllegalArgumentException{
-        if (userRepository.existsByEmail(userRequestDTO.getEmail())){
-            throw new IllegalArgumentException("Email already exist: "+userRequestDTO.getEmail());
-        }
+    public UserResponceDTO createUser(UserRequestDTO userRequestDTO){
         User user = UserMapper.toEntity(userRequestDTO);
         //Encoding you password before saving it
         user.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
@@ -46,10 +43,6 @@ public class UserService {
     }
 
     public UserResponceDTO updateUser(long id, UserRequestDTO userRequestDTO){
-        if (userRepository.existsByEmail(userRequestDTO.getEmail())){
-            throw new IllegalArgumentException("Email already exist: "+userRequestDTO.getEmail());
-        }
-
         User existingUser = userRepository.findById(id).get();
         existingUser.setName(userRequestDTO.getName());
         existingUser.setEmail(userRequestDTO.getEmail());
