@@ -35,6 +35,7 @@ public class SecurityConfig{
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll() // public auth endpoints
+                .antMatchers("/api/todo/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

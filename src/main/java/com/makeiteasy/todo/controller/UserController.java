@@ -23,6 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasRole('ADMIN', 'USER')")
    @GetMapping("/getUser/{id}")
    public ResponseEntity<?> getUser(@PathVariable long id){
        Optional<UserResponceDTO> user = userService.getUserDetailById(id);
@@ -33,6 +34,7 @@ public class UserController {
        }
    }
 
+    @PreAuthorize("hasRole('ADMIN')")
    @GetMapping("/getUsers")
    public ResponseEntity<List<UserResponceDTO>> getUsers(){
        List<UserResponceDTO> users=userService.getAllUsers();
@@ -42,6 +44,7 @@ public class UserController {
        return ResponseEntity.status(HttpStatus.OK).body(users);
    }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/newUser")
     public ResponseEntity<UserResponceDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO){
        try{
@@ -53,6 +56,7 @@ public class UserController {
        }
     }
 
+    @PreAuthorize("hasRole('ADMIN', 'USER')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody @Valid UserRequestDTO userRequestDTO){
         try{

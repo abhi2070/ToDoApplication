@@ -34,7 +34,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email already exists");
         }
 
-        User user = new User(null, userDTO.getName(), userDTO.getUserName(), userDTO.getEmail(),
+        User user = new User(null, userDTO.getName(),  userDTO.getEmail(),
                 new BCryptPasswordEncoder().encode(userDTO.getPassword()), userDTO.getRole());
 
         userRepository.save(user);
