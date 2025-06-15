@@ -6,8 +6,7 @@ import com.makeiteasy.todo.model.User;
 
 public class UserMapper {
 
-    //controller(request user ki) -> service(ki user ko add krna hai) -> userRequestDTO(ki new user add krne ki request aayi hai) -> user(user me data set hoga)
-    public static User toEntity(UserRequestDTO dto){
+public static User toEntity(UserRequestDTO dto){
         User user=new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
@@ -16,7 +15,6 @@ public class UserMapper {
         return user;
     }
 
-    //controller(get ki request aayi) -> service -> userResponceDTO -> MAPPER -> toDTO method se data de dete hai
     public static UserResponceDTO toDTO(User user){
         UserResponceDTO dto=new UserResponceDTO();
         dto.setUserID(user.getUserID());
