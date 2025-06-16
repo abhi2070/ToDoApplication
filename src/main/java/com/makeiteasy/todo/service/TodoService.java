@@ -43,4 +43,36 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
 
+    public TodoResponceDTO updateTodo(Long id, TodoRequestDTO dto, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
+
+        if (!todo.getUser().getUserID().equals(user.getUserID())) {
+            throw new RuntimeException("Unauthorized access to delete todo");
+        }
+
+        todo.setTitle(dto.getTitle());
+        todo.setDescription(dto.getDescription());
+        todo.setComplete(dto.isComplete());
+
+        return TodoMapper.toDTO(todoRepository.save(todo));
+    }
+
+    public void deleteTodo(Long id, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
+
+        if (!todo.getUser().getUserID().equals(user.getUserID())) {
+            throw new RuntimeException("Unauthorized access to delete todo");
+        }
+
+        todoRepository.delete(todo);
+    }
+
 }

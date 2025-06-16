@@ -36,4 +36,24 @@ public class TodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTodo);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<TodoResponceDTO> updateTodo(@PathVariable Long id,
+                                                      @RequestBody TodoRequestDTO dto,
+                                                      Authentication auth) {
+        String userEmail = auth.getName();
+        TodoResponceDTO updated = todoService.updateTodo(id, dto, userEmail);
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Void> deleteTodo(@PathVariable Long id, Authentication auth) {
+        String userEmail = auth.getName();
+        todoService.deleteTodo(id, userEmail);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
 }
