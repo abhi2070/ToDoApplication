@@ -16,7 +16,6 @@ public class TodoMapper {
 
     public static TodoResponceDTO toDTO(Todo todo){
         TodoResponceDTO todoResponceDTO = new TodoResponceDTO();
-        todoResponceDTO.setName(todo.getUser().getName());
         todoResponceDTO.setTitle(todo.getTitle());
         todoResponceDTO.setDescription(todo.getDescription());
         todoResponceDTO.setComplete(todo.isComplete());

@@ -2,6 +2,7 @@ package com.makeiteasy.todo.service;
 
 import com.makeiteasy.todo.dto.TodoRequestDTO;
 import com.makeiteasy.todo.dto.TodoResponceDTO;
+import com.makeiteasy.todo.dto.UserTodosResponseDTO;
 import com.makeiteasy.todo.mapper.TodoMapper;
 import com.makeiteasy.todo.model.Todo;
 import com.makeiteasy.todo.model.User;
@@ -34,14 +35,21 @@ public class TodoService {
         return TodoMapper.toDTO(saved);
     }
 
-    public List<TodoResponceDTO> getTodosByUser(String userEmail) {
+    public UserTodosResponseDTO getTodosByUser(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return todoRepository.findByUser(user).stream()
+        List<TodoResponceDTO> todos = todoRepository.findByUser(user).stream()
                 .map(TodoMapper::toDTO)
                 .collect(Collectors.toList());
+
+        UserTodosResponseDTO response = new UserTodosResponseDTO();
+        response.setUser(user.getName());
+        response.setTodos(todos);
+
+        return response;
     }
+
 
     public TodoResponceDTO updateTodo(Long id, TodoRequestDTO dto, String userEmail) {
         User user = userRepository.findByEmail(userEmail)

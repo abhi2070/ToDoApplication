@@ -2,6 +2,7 @@ package com.makeiteasy.todo.controller;
 
 import com.makeiteasy.todo.dto.TodoRequestDTO;
 import com.makeiteasy.todo.dto.TodoResponceDTO;
+import com.makeiteasy.todo.dto.UserTodosResponseDTO;
 import com.makeiteasy.todo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,9 @@ public class TodoController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<TodoResponceDTO>> getTodos(Authentication authentication) {
+    public ResponseEntity<UserTodosResponseDTO> getTodos(Authentication authentication) {
         String userEmail = authentication.getName();
-        List<TodoResponceDTO> todos = todoService.getTodosByUser(userEmail);
+        UserTodosResponseDTO todos = todoService.getTodosByUser(userEmail);
         return ResponseEntity.ok(todos);
     }
 

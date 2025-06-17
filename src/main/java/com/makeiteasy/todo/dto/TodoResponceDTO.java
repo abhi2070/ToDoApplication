@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class TodoResponceDTO {
-    private String name;
     private String title;
     private String description;
     private boolean complete;
