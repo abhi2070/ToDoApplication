@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Todo")
@@ -15,6 +16,7 @@ public class Todo {
     private String title;
     private String description;
     private boolean complete;
+    private LocalDateTime startDate;
 
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
