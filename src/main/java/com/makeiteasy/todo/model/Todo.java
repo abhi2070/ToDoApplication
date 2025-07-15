@@ -18,7 +18,7 @@ public class Todo {
     private boolean complete;
     private LocalDateTime startDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userID", nullable = false)
     private User user;
 
